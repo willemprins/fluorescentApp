@@ -155,6 +155,38 @@ typedef enum
 - (void) didReceiveData:(NSString *)string
 {
     [self addTextToConsole:string dataType:RX];
+    
+}
+
+- (void) didReceiveArrayData:(NSMutableArray *) fluorData
+{
+    //here we need to print similar to how we did in add text to Consol, with new method
+    [self addArrayTextToConsole:fluorData];
+}
+
+- (void) addArrayTextToConsole:(NSMutableArray *) fluorData
+{
+    //Setting up Date
+    NSString *direction = @"RX";
+    NSDateFormatter *formatter;
+    formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"HH:mm:ss.SSS"];
+    
+    //Size of Mutable Array
+    int size = [fluorData count];
+    int index;
+    
+    //Print out entire Array
+    for (index = 0; index < size; index++) {
+        //print out each element of the Array
+        NSString *string = [fluorData objectAtIndex:index];
+        self.consoleTextView.text = [self.consoleTextView.text stringByAppendingFormat:@"[%@] %@: %@\n",[formatter stringFromDate:[NSDate date]], direction, string];
+        
+        [self.consoleTextView setScrollEnabled:NO];
+        NSRange bottom = NSMakeRange(self.consoleTextView.text.length-1, self.consoleTextView.text.length);
+        [self.consoleTextView scrollRangeToVisible:bottom];
+        [self.consoleTextView setScrollEnabled:YES];
+    }
 }
 
 - (void) addTextToConsole:(NSString *) string dataType:(ConsoleDataType) dataType

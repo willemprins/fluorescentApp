@@ -12,8 +12,6 @@
 @property CBService *uartService;
 @property CBCharacteristic *rxCharacteristic;
 @property CBCharacteristic *txCharacteristic;
-//@property NSMutableArray *fluorData;
-
 @end
 
 @implementation UARTPeripheral
@@ -173,12 +171,15 @@
     {
         
         NSString *string = [NSString stringWithUTF8String:[[characteristic value] bytes]];
+        //This prints the string
         [self.delegate didReceiveData:string];
         
-        
-        //Need to run a method inside of view controller where we append the array?
-        //[self.delegate didAppendArray:string];
-        
+        //add string to the mutableArray fluorData
+        //Does this need to be self.delegate.fluorData?
+        [self.fluorData addObject:string];
+        //Now print string with function in ViewController
+        [self.delegate didReceiveArrayData:_fluorData];
+    
         
     }
     else if ([characteristic.UUID isEqual:self.class.hardwareRevisionStringUUID])

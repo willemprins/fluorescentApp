@@ -10,6 +10,7 @@
 
 @protocol UARTPeripheralDelegate
 - (void) didReceiveData:(NSString *) string;
+- (void) didReceiveArrayData:(NSMutableArray *) fluorData;
 @optional
 - (void) didReadHardwareRevisionString:(NSString *) string;
 @end
@@ -18,8 +19,8 @@
 @interface UARTPeripheral : NSObject <CBPeripheralDelegate>
 @property CBPeripheral *peripheral;
 @property id<UARTPeripheralDelegate> delegate;
-//Do I need to put the NSMutableArray here?
-//@property (nonatomic) 
+@property NSMutableArray *fluorData;
+
 
 + (CBUUID *) uartServiceUUID;
 
